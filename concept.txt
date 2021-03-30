@@ -1,0 +1,17 @@
+React:
+React is a declarative, efficient, and flexible JavaScript library 
+for building user interfaces.
+
+Component:
+A component takes in parameters, called props (short for “properties”), 
+and returns a hierarchy of views to display via the render method.
+
+Passing props is how information flows in React apps, from parents to children.
+
+React components can have state by setting this.state in their constructors. 
+this.state should be considered as private to a React component that 
+it’s defined in.
+
+All React component classes that have a constructor should start with a 
+super(props) call.
+
