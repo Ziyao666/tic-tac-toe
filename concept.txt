@@ -14,4 +14,3 @@ it’s defined in.
 
 All React component classes that have a constructor should start with a 
 super(props) call.
-
