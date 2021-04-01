@@ -14,3 +14,15 @@ it’s defined in.
 
 All React component classes that have a constructor should start with a 
 super(props) call.
+
+Key:
+key is a special and reserved property in React (along with ref, a more 
+advanced feature). When an element is created, React extracts the key 
+property and stores the key directly on the returned element. Even though 
+key may look like it belongs in props, key cannot be referenced using 
+this.props.key. React automatically uses key to decide which components to 
+update. A component cannot inquire about its key.
+Keys do not need to be globally unique; they only need to be unique between 
+components and their siblings.
+
+
