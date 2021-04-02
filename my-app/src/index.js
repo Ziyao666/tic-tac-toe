@@ -87,13 +87,26 @@ class Game extends React.Component {
     });
   }
 
+  
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-      const desc = move ? `Go to move #${move}` : `Go to game start`;
+    let newstep;
+    if (move > 0){
+      let cur = history[move];
+      let last = history[move -1];
+      newstep = diffStep(cur['squares'], last['squares']);
+      } else {
+        newstep = {
+          col: -1,
+          row: -1,
+        }
+      }
+      const desc = move ? `Go to move #${move} : col:${newstep.col}, row:${newstep.row}` : `Go to game start`;
       return (
         <li key={move}>
           <button onClick={()=>this.jumpTo(move)}>{desc}</button>
@@ -143,6 +156,19 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function diffStep(cur, last) {
+  for(let i = 0; i < cur.length; i++) {
+    if (cur[i] !== last[i]) {
+      const col = ((i+1)%3) ? (i+1)%3 : 3;
+      const row = Math.ceil((i+1)/3);
+      return ({
+        col: col,
+        row: row,
+      });
+    }
+  }
 }
 
 // ========================================
