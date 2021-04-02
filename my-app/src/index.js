@@ -4,13 +4,20 @@ import './index.css';
 
 function Square(props) {
   return (
-    <button className="square" onClick ={props.onClick}>
+    <button className={props.className} onClick ={props.onClick}>
       {props.value}
     </button>
   );
 }
 
 class Board extends React.Component {
+  className(i) {
+    if (i === this.props.focusIndex){
+      return 'square-focus';
+    } else {
+      return 'square';
+    }
+  }
   
   renderSquare(i) {
     return (
@@ -18,6 +25,7 @@ class Board extends React.Component {
         value={this.props.squares[i]} 
         //  we’ll pass down a function from the Board to the Square
         onClick={()=>this.props.onClick(i)}
+        className = {this.className(i)}
       />
     );
   }
@@ -95,11 +103,11 @@ class Game extends React.Component {
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
-    let newstep;
-    if (move > 0){
-      let cur = history[move];
-      let last = history[move -1];
-      newstep = diffStep(cur['squares'], last['squares']);
+      let newstep;
+      if (move > 0){
+        let cur = history[move];
+        let last = history[move -1];
+        newstep = diffStep(cur['squares'], last['squares']);
       } else {
         newstep = {
           col: -1,
@@ -114,7 +122,20 @@ class Game extends React.Component {
       )
     })
 
-    let  status;
+    let newstep;
+    if (this.state.stepNumber > 0) {
+      const lastone = history[this.state.stepNumber-1];
+      newstep = diffStep(current['squares'], lastone['squares']);
+    } else {
+      newstep = {
+        col: -1,
+        row: -1,
+        index: 0,
+      }
+    }
+    
+
+    let status;
     if (winner) {
       status = `Winner: ${winner}`;
     } else {
@@ -127,6 +148,7 @@ class Game extends React.Component {
           <Board 
             squares = {current.squares}
             onClick = {(i) => this.handleClick(i)}
+            focusIndex = {newstep.index}
           />
         </div>
         <div className="game-info">
@@ -166,6 +188,7 @@ function diffStep(cur, last) {
       return ({
         col: col,
         row: row,
+        index: i,
       });
     }
   }
